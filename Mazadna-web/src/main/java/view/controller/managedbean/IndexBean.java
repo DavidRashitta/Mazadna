@@ -1,27 +1,27 @@
 package view.controller.managedbean;
 
+import mazadna.dal.entities.ItiMazadnaAuction;
 import mazadna.dal.entities.ItiMazadnaUser;
+import mazadna.dao.ItiMazadnaAuctionFacade;
 import mazadna.dao.ItiMazadnaUserFacade;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name = "indexBean")
 @RequestScoped
 public class IndexBean {
 
     @EJB
-    ItiMazadnaUserFacade itiMazadnaUserFacade;
+    ItiMazadnaAuctionFacade auctionFacade;
 
-    String name;
+    List<ItiMazadnaAuction> auctions;
 
-    public String getName() {
-        name = itiMazadnaUserFacade.getName();
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public List<ItiMazadnaAuction> getAuctions() {
+        auctions = auctionFacade.findAll();
+        return auctions;
     }
 }
