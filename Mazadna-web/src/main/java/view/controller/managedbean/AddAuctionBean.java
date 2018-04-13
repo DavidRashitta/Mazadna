@@ -7,10 +7,11 @@ package view.controller.managedbean;
 
 import mazadna.dal.entities.*;
 import mazadna.dal.factory.EntityFactory;
-import mazadna.dao.inter.*;
+import mazadna.dao.ItiMazadnaAuctionFacade;
+import mazadna.dao.ItiMazadnaAuctionitemFacade;
+import mazadna.dao.ItiMazadnaItemFacade;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -24,9 +25,9 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class AddAuctionBean {
 
-    ItiMazadnaItemFacadeLocal itemFacade = EntityFactory.getItemFacade();
-    ItiMazadnaAuctionFacadeLocal auctionFacade = EntityFactory.getAuctionFacade();
-    ItiMazadnaAuctionitemFacadeLocal auctionitemFacade = EntityFactory.getAuctionitemFacade();
+    ItiMazadnaItemFacade itemFacade = EntityFactory.getItemFacade();
+    ItiMazadnaAuctionFacade auctionFacade = EntityFactory.getAuctionFacade();
+    ItiMazadnaAuctionitemFacade auctionitemFacade = EntityFactory.getAuctionitemFacade();
     ItiMazadnaAuction mazadnaAuction;
     List<ItiMazadnaItem> items;
     public BigDecimal[] choosedItems;
@@ -67,11 +68,11 @@ public class AddAuctionBean {
         this.choosedItems = choosedItems;
     }
 
-    public ItiMazadnaItemFacadeLocal getItemFacade() {
+    public ItiMazadnaItemFacade getItemFacade() {
         return itemFacade;
     }
 
-    public void setItemFacade(ItiMazadnaItemFacadeLocal itemFacade) {
+    public void setItemFacade(ItiMazadnaItemFacade itemFacade) {
         this.itemFacade = itemFacade;
     }
 

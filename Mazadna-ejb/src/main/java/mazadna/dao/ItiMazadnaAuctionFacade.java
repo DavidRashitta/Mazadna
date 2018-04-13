@@ -3,24 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mazadna.dao.impl;
+package mazadna.dao;
 
-import mazadna.dal.entities.ItiMazadnaUser;
-import mazadna.dao.inter.ItiMazadnaUserFacadeLocal;
+import mazadna.dal.entities.ItiMazadnaAuction;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.Serializable;
 
 /**
- *
  * @author szmoh
  */
 @Stateless
-
-public class ItiMazadnaUserFacade extends AbstractFacade<ItiMazadnaUser>
-        implements ItiMazadnaUserFacadeLocal , Serializable {
+public class ItiMazadnaAuctionFacade extends AbstractFacade<ItiMazadnaAuction> {
 
     @PersistenceContext(unitName = "MazadnaPU")
     private EntityManager em;
@@ -30,8 +25,8 @@ public class ItiMazadnaUserFacade extends AbstractFacade<ItiMazadnaUser>
         return em;
     }
 
-    public ItiMazadnaUserFacade() {
-        super(ItiMazadnaUser.class);
+    public ItiMazadnaAuctionFacade() {
+        super(ItiMazadnaAuction.class);
     }
-    
+
 }

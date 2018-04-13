@@ -6,15 +6,13 @@
 package view.controller.managedbean;
 
 
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Locale;
 import mazadna.dal.entities.*;
-import mazadna.dao.impl.ItiMazadnaUserFacade;
+import mazadna.dao.ItiMazadnaUserFacade;
 
 /**
  *

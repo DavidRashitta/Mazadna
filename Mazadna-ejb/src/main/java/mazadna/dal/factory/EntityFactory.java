@@ -1,6 +1,6 @@
 package mazadna.dal.factory;
 
-import mazadna.dao.impl.*;
+import mazadna.dao.*;
 
 public class EntityFactory {
     private static ItiMazadnaItemFacade itemFacade = null;

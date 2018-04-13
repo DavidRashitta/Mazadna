@@ -3,21 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mazadna.dao.impl;
+package mazadna.dao;
 
-import mazadna.dal.entities.ItiMazadnaAuction;
-import mazadna.dao.inter.ItiMazadnaAuctionFacadeLocal;
+
+import mazadna.dal.entities.ItiMazadnaBidderitem;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
  * @author szmoh
  */
 @Stateless
-public class ItiMazadnaAuctionFacade extends AbstractFacade<ItiMazadnaAuction> implements ItiMazadnaAuctionFacadeLocal {
+public class ItiMazadnaBidderitemFacade extends AbstractFacade<ItiMazadnaBidderitem> {
 
     @PersistenceContext(unitName = "MazadnaPU")
     private EntityManager em;
@@ -27,8 +26,8 @@ public class ItiMazadnaAuctionFacade extends AbstractFacade<ItiMazadnaAuction> i
         return em;
     }
 
-    public ItiMazadnaAuctionFacade() {
-        super(ItiMazadnaAuction.class);
+    public ItiMazadnaBidderitemFacade() {
+        super(ItiMazadnaBidderitem.class);
     }
-    
+
 }
