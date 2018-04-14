@@ -27,7 +27,7 @@
                                     <h3>Auction Details</h3>
                                     <div>
                                         <span>Start Date</span>
-                                        <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionStart}"
+                                        <h:inputText value="#{requestAuctionBean.mazadnaAuction.auctionStart}"
                                                      required="true" id="startDate"
                                                      requiredMessage="Enter Start Date"
                                                      pt:type="date">
@@ -38,7 +38,7 @@
                                     </div>
                                     <div>
                                         <span>End Date</span>
-                                        <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionEnd}"
+                                        <h:inputText value="#{requestAuctionBean.mazadnaAuction.auctionEnd}"
                                                      required="true" id="endDate"
                                                      requiredMessage="Enter End Date" pt:type="date">
                                             <f:convertDateTime pattern="yyyy-MM-dd"/>
@@ -48,17 +48,28 @@
                                     </div>
                                     <h3>Add Items to Auction</h3>
                                     <div>
-                                        <p:selectManyMenu id="basic" value="#{addAuctionBean.choosedItems}" required="true"
+                                        <p:selectManyMenu id="basic" value="#{requestAuctionBean.choosedItems}" required="true"
                                                           requiredMessage="Choose at least one item">
-                                            <f:selectItems value="#{addAuctionBean.items}"
+                                            <f:selectItems value="#{requestAuctionBean.items}"
                                                            var="item" itemLabel="#{item.name}"
                                                            itemValue="#{item.recid}" />
                                         </p:selectManyMenu>
                                         <h:message for="basic" style="color:red"/>
                                     </div>
+                                    <h3>Select Supplier</h3>
+                                    <div>
+                                        <p:selectOneListbox id="suppliers" value="#{requestAuctionBean.choosedSupplier}"
+                                                         required="true"
+                                                          requiredMessage="Choose one Supplier">
+                                            <f:selectItems value="#{requestAuctionBean.suppliers}"
+                                                           var="supplier" itemLabel="#{supplier.firstname}"
+                                                           itemValue="#{supplier.recid}" />
+                                        </p:selectOneListbox>
+                                        <h:message for="suppliers" style="color:red"/>
+                                    </div>
                                     <p>
                                         <h:commandButton value="Add" style="margin-right: 15px;width: 100px;"
-                                                         action="#{addAuctionBean.addAuction}"/>
+                                                         action="#{requestAuctionBean.addAuction}"/>
                                     </p>
                                 </div>
                             </h:form>

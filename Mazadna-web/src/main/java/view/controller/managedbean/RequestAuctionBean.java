@@ -1,51 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view.controller.managedbean;
 
-import mazadna.dal.entities.ItiMazadnaAuction;
-import mazadna.dal.entities.ItiMazadnaAuctionitem;
-import mazadna.dal.entities.ItiMazadnaAuctionitemPK;
-import mazadna.dal.entities.ItiMazadnaItem;
+import mazadna.dal.entities.*;
 import mazadna.dao.ItiMazadnaAuctionFacade;
 import mazadna.dao.ItiMazadnaAuctionitemFacade;
 import mazadna.dao.ItiMazadnaItemFacade;
+import mazadna.dao.ItiMazadnaUserFacade;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
 
-/**
- *
- * @author Eman-PC
- */
-@ManagedBean(name = "addAuctionBean")
+@ManagedBean(name = "requestAuctionBean")
 @RequestScoped
-public class AddAuctionBean {
-
+public class RequestAuctionBean {
     @EJB
     ItiMazadnaItemFacade itemFacade;
     @EJB
     ItiMazadnaAuctionFacade auctionFacade;
     @EJB
     ItiMazadnaAuctionitemFacade auctionitemFacade;
+    @EJB
+    ItiMazadnaUserFacade userFacade;
 
     ItiMazadnaAuction mazadnaAuction;
     List<ItiMazadnaItem> items;
+    List<ItiMazadnaUser> suppliers;
     public List<String> choosedItems;
+    public String choosedSupplier;
 
-    public AddAuctionBean() {
+    public RequestAuctionBean() {
         mazadnaAuction = new ItiMazadnaAuction();
         mazadnaAuction.setRecid(0L);
     }
@@ -53,21 +40,25 @@ public class AddAuctionBean {
     @PostConstruct
     public void update() {
         items = itemFacade.findAll();
+        suppliers = userFacade.getAllSuppliers();
         choosedItems = new ArrayList<>();
     }
 
     public String addAuction() {
         String nextPage = "addAuction";
         if(isEndDateAfterStartDate()) {
-            mazadnaAuction.setApprove(1L);
+            mazadnaAuction.setApprove(0L);
             auctionFacade.addAuction(mazadnaAuction);
             ItiMazadnaAuction addedAuction = auctionFacade.getLastAuction();
-
+            Long supplierId = new Long(choosedSupplier);
+            ItiMazadnaUser supplier = userFacade.find(supplierId);
             for (int count = 0; count < choosedItems.size(); count++) {
                 ItiMazadnaAuctionitem auctionitem = new ItiMazadnaAuctionitem();
                 auctionitem.setItiMazadnaAuction(addedAuction);
-                Long num = new Long(choosedItems.get(count));
-                ItiMazadnaItem foundItem = itemFacade.find(num);
+                Long itemId = new Long(choosedItems.get(count));
+                ItiMazadnaItem foundItem = itemFacade.find(itemId);
+                foundItem.setSupplierid(supplier);
+                itemFacade.edit(foundItem);
                 auctionitem.setItiMazadnaItem(foundItem);
 
                 ItiMazadnaAuctionitemPK auctionitemPK = new ItiMazadnaAuctionitemPK();
@@ -113,6 +104,22 @@ public class AddAuctionBean {
 
     public void setItems(List<ItiMazadnaItem> items) {
         this.items = items;
+    }
+
+    public List<ItiMazadnaUser> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(List<ItiMazadnaUser> suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public String getChoosedSupplier() {
+        return choosedSupplier;
+    }
+
+    public void setChoosedSupplier(String choosedSuppliers) {
+        this.choosedSupplier = choosedSuppliers;
     }
 
 }
