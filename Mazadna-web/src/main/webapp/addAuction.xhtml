@@ -1,70 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <!---->
-    <h:body>
-        <ui:composition template="templates/masterTemplate.xhtml">
-            <ui:define name="content">
-                <div class="grow">
-                    <div class="container">
-                        <h2>Add Auction</h2>
-                    </div>
+<!---->
+<h:body>
+    <ui:composition template="templates/masterTemplate.xhtml">
+        <ui:define name="content">
+            <div class="grow">
+                <div class="container">
+                    <h2>Add Auction</h2>
                 </div>
-                <!-- grow -->
-                <!--content-->
-                <div class=" container">
-                    <div class="account">
-                        <div class="account-pass">
-                            <div class="col-md-8 account-top">
-                                <h:form prependId="false">
-                                    <div class="col-md-6 register-top-grid register-bottom-grid">
-                                        <h3>Auction Details</h3>
-                                        <div>
-                                            <span>Start Date</span>
-                                            <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionStart}" required="true" id="startDate">
-                                                <f:convertDateTime pattern="MM/YYYY"/>
-                                            </h:inputText>
-                                            <h:message for="startDate"/>
-                                        </div>
-                                        <div>
-                                            <span>End Date</span>
-                                            <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionEnd}" required="true" id="endDate">
-                                                <f:convertDateTime pattern="MM/YYYY"/>
-                                            </h:inputText> 
-                                            <h:message for="endDate"/>
-                                        </div>
-                                        <h3>Add Items to Auction</h3>
-                                        <div>
-                                            <h:selectManyListbox value="#{addAuctionBean.choosedItems}">
-                                                <f:selectItems value="#{addAuctionBean.items}" var="item"
-                                                               itemLabel="#{item.name}" 
-                                                               itemValue="#{item.recid}" />
-                                            </h:selectManyListbox>
-                                        </div>
-                                        <p>
-                                            <h:commandButton value="Register" style="margin-right: 15px;width: 100px;" action="#{addAuctionBean.addAuction}"/>
-                                        </p>
+            </div>
+            <!-- grow -->
+            <!--content-->
+            <div class=" container">
+                <div class="account">
+                    <div class="account-pass">
+                        <div class="col-md-8 account-top">
+                            <h:form prependId="false">
+                                <div class="col-md-6 register-top-grid register-bottom-grid">
+                                    <h3>Auction Details</h3>
+                                    <div>
+                                        <span>Start Date</span>
+                                        <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionStart}"
+                                                     required="true" id="startDate"
+                                                     requiredMessage="Enter Start Date">
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                            <f:validator validatorId="dateValidator"/>
+                                        </h:inputText>
+                                        <h:message for="startDate" style="color:red"/>
                                     </div>
-                                </h:form>
-                            </div>
-                            <div class="col-md-4 left-account">
-                                <a href="single.xhtml">
-                                    <h:graphicImage class="img-responsive" name="images/s1.jpg" /></a>
-                                <div class="five">
-                                    <h2>25% </h2><span>discount</span>
+                                    <div>
+                                        <span>End Date</span>
+                                        <h:inputText value="#{addAuctionBean.mazadnaAuction.auctionEnd}"
+                                                     required="true" id="endDate"
+                                                     requiredMessage="Enter End Date">
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                            <f:validator validatorId="dateValidator"/>
+                                        </h:inputText>
+                                        <h:message for="endDate" style="color:red"/>
+                                    </div>
+                                    <h3>Add Items to Auction</h3>
+                                    <div>
+                                        <p:selectManyMenu id="basic" value="#{addAuctionBean.choosedItems}" required="true"
+                                                          requiredMessage="Choose at least one item">
+                                            <f:selectItems value="#{addAuctionBean.items}"
+                                                           var="item" itemLabel="#{item.name}"
+                                                           itemValue="#{item.recid}" />
+                                        </p:selectManyMenu>
+                                        <h:message for="basic" style="color:red"/>
+                                    </div>
+                                    <p>
+                                        <h:commandButton value="Add" style="margin-right: 15px;width: 100px;"
+                                                         action="#{addAuctionBean.addAuction}"/>
+                                    </p>
                                 </div>
-                                <a href="register.xhtml" class="create">Create an account</a>
-                                <div class="clearfix"> </div>
+                            </h:form>
+                        </div>
+                        <div class="col-md-4 left-account">
+                            <a href="single.xhtml">
+                                <h:graphicImage class="img-responsive" name="images/s1.jpg" /></a>
+                            <div class="five">
+                                <h2>25% </h2><span>discount</span>
                             </div>
+                            <a href="register.xhtml" class="create">Create an account</a>
+                            <div class="clearfix"> </div>
                         </div>
                     </div>
                 </div>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

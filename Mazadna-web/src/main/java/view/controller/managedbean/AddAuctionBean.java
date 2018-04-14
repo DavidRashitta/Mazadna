@@ -5,17 +5,24 @@
  */
 package view.controller.managedbean;
 
-import mazadna.dal.entities.*;
-import mazadna.dal.factory.EntityFactory;
+import mazadna.dal.entities.ItiMazadnaAuction;
+import mazadna.dal.entities.ItiMazadnaAuctionitem;
+import mazadna.dal.entities.ItiMazadnaAuctionitemPK;
+import mazadna.dal.entities.ItiMazadnaItem;
 import mazadna.dao.ItiMazadnaAuctionFacade;
 import mazadna.dao.ItiMazadnaAuctionitemFacade;
 import mazadna.dao.ItiMazadnaItemFacade;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-
+import javax.inject.Inject;
 
 /**
  *
@@ -25,30 +32,53 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class AddAuctionBean {
 
-    ItiMazadnaItemFacade itemFacade = EntityFactory.getItemFacade();
-    ItiMazadnaAuctionFacade auctionFacade = EntityFactory.getAuctionFacade();
-    ItiMazadnaAuctionitemFacade auctionitemFacade = EntityFactory.getAuctionitemFacade();
+    @EJB
+    ItiMazadnaItemFacade itemFacade;
+    @EJB
+    ItiMazadnaAuctionFacade auctionFacade;
+    @EJB
+    ItiMazadnaAuctionitemFacade auctionitemFacade;
+
+    Date currentDate = new Date();
+
     ItiMazadnaAuction mazadnaAuction;
     List<ItiMazadnaItem> items;
-    public BigDecimal[] choosedItems;
+    public List<String> choosedItems;
 
     /**
      * Creates a new instance of AddAuctionBean
      */
     public AddAuctionBean() {
         mazadnaAuction = new ItiMazadnaAuction();
+        mazadnaAuction.setRecid(0L);
+    }
+
+    @PostConstruct
+    public void update() {
         items = itemFacade.findAll();
+        choosedItems = new ArrayList<>();
     }
 
     public String addAuction() {
         mazadnaAuction.setApprove(0L);
-        auctionFacade.create(mazadnaAuction);
-        BigDecimal auctionId = new BigDecimal(123);
-        for (int count = 0; count < choosedItems.length; count++) {
+        auctionFacade.addAuction(mazadnaAuction);
+        ItiMazadnaAuction addedAuction = auctionFacade.getLastAuction();
+        //int count = 0;
+        for (int count = 0; count < choosedItems.size(); count++) {
             ItiMazadnaAuctionitem auctionitem = new ItiMazadnaAuctionitem();
-            auctionitem.setItiMazadnaAuction(mazadnaAuction);
-        }
+            auctionitem.setItiMazadnaAuction(addedAuction);
+            Long num = new Long(choosedItems.get(count));
+            ItiMazadnaItem foundItem = itemFacade.find(num);
+            auctionitem.setItiMazadnaItem(foundItem);
 
+            ItiMazadnaAuctionitemPK auctionitemPK = new ItiMazadnaAuctionitemPK();
+            auctionitemPK.setAuctionid(addedAuction.getRecid());
+            auctionitemPK.setItemid(foundItem.getRecid());
+
+            auctionitem.setItiMazadnaAuctionitemPK(auctionitemPK);
+            auctionitemFacade.create(auctionitem);
+            // count++;
+        }
         return null;
     }
 
@@ -60,11 +90,11 @@ public class AddAuctionBean {
         this.mazadnaAuction = mazadnaAuction;
     }
 
-    public BigDecimal[] getChoosedItems() {
+    public List<String> getChoosedItems() {
         return choosedItems;
     }
 
-    public void setChoosedItems(BigDecimal[] choosedItems) {
+    public void setChoosedItems(List<String> choosedItems) {
         this.choosedItems = choosedItems;
     }
 
@@ -82,6 +112,30 @@ public class AddAuctionBean {
 
     public void setItems(List<ItiMazadnaItem> items) {
         this.items = items;
+    }
+
+    public ItiMazadnaAuctionFacade getAuctionFacade() {
+        return auctionFacade;
+    }
+
+    public void setAuctionFacade(ItiMazadnaAuctionFacade auctionFacade) {
+        this.auctionFacade = auctionFacade;
+    }
+
+    public ItiMazadnaAuctionitemFacade getAuctionitemFacade() {
+        return auctionitemFacade;
+    }
+
+    public void setAuctionitemFacade(ItiMazadnaAuctionitemFacade auctionitemFacade) {
+        this.auctionitemFacade = auctionitemFacade;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
     }
 
 }
