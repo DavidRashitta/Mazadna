@@ -11,6 +11,8 @@ import mazadna.dal.entities.ItiMazadnaItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author szmoh
@@ -28,6 +30,14 @@ public class ItiMazadnaItemFacade extends AbstractFacade<ItiMazadnaItem> {
 
     public ItiMazadnaItemFacade() {
         super(ItiMazadnaItem.class);
+    }
+
+    // get all deals
+    public List<ItiMazadnaItem> getAllDeals() {
+        System.out.println("get all deals");
+        Query query = em.createQuery("SELECT i FROM ItiMazadnaItem i where i.userid != i.supplierid");
+        List<ItiMazadnaItem> deals = query.getResultList();
+        return deals;
     }
 
 }

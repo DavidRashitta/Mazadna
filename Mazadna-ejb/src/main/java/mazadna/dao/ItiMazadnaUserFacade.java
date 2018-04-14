@@ -42,6 +42,14 @@ public class ItiMazadnaUserFacade extends AbstractFacade<ItiMazadnaUser> {
         super(ItiMazadnaUser.class);
     }
 
+    // get all suppliers
+    public List<ItiMazadnaUser> getAllSuppliers() {
+        Query query = em.createQuery("SELECT u FROM ItiMazadnaUser u where u.role = 1");
+        List<ItiMazadnaUser> suppliers = query.getResultList();
+        return suppliers;
+    }
+
+
     //if username and password exists return user obj else return null
     public ItiMazadnaUser checkLogin(String email, String password) {
         ItiMazadnaUser user = null;
