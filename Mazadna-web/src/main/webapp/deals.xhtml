@@ -1,86 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Deals</title>
+</h:head>
+<h:body>
     <f:view>
-        <h:body>
-            <ui:composition template="templates/masterTemplate.xhtml">
-                <ui:define name="content">
-                    <!-- grow -->
-                    <div class="grow">
-                        <div class="container">
-                            <h2>Deals</h2>
-                        </div>
+        <ui:composition template="templates/masterTemplate.xhtml">
+            <ui:define name="content">
+                <!-- grow -->
+                <div class="grow">
+                    <div class="container">
+                        <h2>Deals</h2>
                     </div>
-                    <!-- grow -->
-                    <div class="product">
-                        <div class="container">
+                </div>
+                <!-- grow -->
+                <f:view>
+                    <!--<ui:include src="/pieces/header.xhtml"/>-->
+                    <h:form id="fieldset">
+                        <center>
+                            <legend><br/><br/><b>All Deals</b></legend>
+                        </center>
 
-                            <div class="product-price1">
-                                <div class="top-sing">
-                                    <div class="col-md-7 single-top">	
-                                        <div class="flexslider">
-                                            <ul class="slides">
-                                                <li data-thumb="images/si.jpg">
-                                                    <div class="thumb-image">
-                                                        <h:graphicImage class="img-responsive" name="images/si.jpg" /></div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                        <h:dataTable value="#{dealBean.deals}" var="deal">
+                            <h:column>
+                                <f:facet name="header">Action No.</f:facet>
+                                <h:outputText value="#{deal.auctionStart}" style="width:75px"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Start Date</f:facet>
+                                <h:outputText value="#{deal.auctionStart}" style="width:75px"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Start Date</f:facet>
+                                <h:outputText value="#{deal.auctionEnd}" style="width:100px"/>
+                            </h:column>
 
-                                        <div class="clearfix"> </div>
-                                        <!-- slide -->
+                            <h:column>
+                                <h:commandButton styleClass="btn" value="View Items"
+                                                 action="#{dealBean.deals}"></h:commandButton>
+                                <f:facet name="header">Items</f:facet>
+                            </h:column>
+                        </h:dataTable>
 
-                                        <!-- FlexSlider -->
-                                        <script src="js/jquery.flexslider.js"></script>
-                                        <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+                    </h:form>
 
-                                        <script>
-                                            // Can also be used with $(document).ready()
-                                            $(window).load(function () {
-                                                $('.flexslider').flexslider({
-                                                    animation: "slide",
-                                                    controlNav: "thumbnails"
-                                                });
-                                            });
-                                        </script>
-                                    </div>	
-                                    <div class="col-md-5 single-top-in simpleCart_shelfItem">
-                                        <div class="single-para ">
-                                            <h:form>
-                                                <h:dataTable value="#{auction.mazadnaAuction.itiMazadnaAuctionitemSet}"
-                                                             var="item">
-                                                    <h:column>  
-                                                        <h3>#{item.itiMazadnaItem.name}</h3><br/>                                                        
-                                                        <h:outputText value="Current Price: $#{item.itiMazadnaItem.minprice}" /><br/><br/>
-                                                        Enter your maximum bid:
-                                                        <h:inputText pt:type="number" pt:step="#{item.itiMazadnaItem.bidincrement}" 
-                                                                     pt:min="10"/>
-                                                        <h:commandButton value="Place Bid" action="#{auction.placeBid}"/><br/><br/>
-
-                                                        <h:outputText value="#{item.itiMazadnaItem.description}" /><br/><br/>
-                                                        <h:outputText value="Number of Bids: 12" /><br/><br/>
-
-                                                        <h:outputText value="Bid Increment: $#{item.itiMazadnaItem.bidincrement}" /><br/><br/>
-                                                    </h:column>
-                                                </h:dataTable>
-                                            </h:form>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <!---->
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
-                    <!--//content-->
-                </ui:define>
-            </ui:composition>
-        </h:body>
+                </f:view>
+                <!--//content-->
+            </ui:define>
+        </ui:composition>
     </f:view>
+</h:body>
+
 </html>
