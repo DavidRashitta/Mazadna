@@ -5,10 +5,7 @@
  */
 package view.controller.managedbean;
 
-import mazadna.dal.entities.ItiMazadnaAuction;
-import mazadna.dal.entities.ItiMazadnaAuctionitem;
-import mazadna.dal.entities.ItiMazadnaAuctionitemPK;
-import mazadna.dal.entities.ItiMazadnaItem;
+import mazadna.dal.entities.*;
 import mazadna.dao.ItiMazadnaAuctionFacade;
 import mazadna.dao.ItiMazadnaAuctionitemFacade;
 import mazadna.dao.ItiMazadnaItemFacade;
@@ -22,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;

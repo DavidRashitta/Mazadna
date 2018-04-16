@@ -55,12 +55,12 @@
 
                                                 <h:dataTable value="#{auction.mazadnaAuction.itiMazadnaAuctionitemSet}"
                                                              var="item">
-                                                    <h:column>  
-                                                        <h3>#{item.itiMazadnaItem.name}</h3><br/>                                                        
+                                                    <h:column>
+                                                        <h3>#{item.itiMazadnaItem.name}</h3><br/>
                                                         <h:outputText value="Current Price: $#{item.itiMazadnaItem.minprice}" /><br/><br/>
                                                         Enter your maximum bid:
                                                         <h:inputText pt:type="number" pt:step="#{item.itiMazadnaItem.bidincrement}" 
-                                                                     pt:min="10"/>
+                                                                     pt:min="10" value="#{item.itiMazadnaItem.placeBidAmount}"/>
                                                         <h:commandButton value="Place Bid" action="#{auction.placeBid}"/><br/><br/>
 
                                                         <h:outputText value="#{item.itiMazadnaItem.description}" /><br/><br/>

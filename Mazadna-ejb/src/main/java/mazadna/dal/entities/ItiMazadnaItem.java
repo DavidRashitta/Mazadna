@@ -48,6 +48,10 @@ public class ItiMazadnaItem implements Serializable {
     @NotNull
     @Column(name = "RECID")
     private Long recid;
+
+    @Column(name = "PLACEBIDAMOUNT")
+    private Long placeBidAmount;
+
     @Size(max = 200)
     @Column(name = "NAME")
     private String name;
@@ -121,6 +125,14 @@ public class ItiMazadnaItem implements Serializable {
         this.bidincrement = bidincrement;
     }
 
+    public Long getPlaceBidAmount() {
+        return placeBidAmount;
+    }
+
+    public void setPlaceBidAmount(Long placeBidAmount) {
+        this.placeBidAmount = placeBidAmount;
+    }
+
     public String getImgurl() {
         return imgurl;
     }
@@ -152,6 +164,7 @@ public class ItiMazadnaItem implements Serializable {
     public void setUserid(ItiMazadnaUser userid) {
         this.userid = userid;
     }
+
 
     @XmlTransient
     public Set<ItiMazadnaBidderitem> getItiMazadnaBidderitemSet() {

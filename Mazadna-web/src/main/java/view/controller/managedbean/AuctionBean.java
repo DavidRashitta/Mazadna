@@ -6,22 +6,31 @@
 package view.controller.managedbean;
 
 import mazadna.dal.entities.*;
+import mazadna.dao.ItiMazadnaBidderitemFacade;
+import mazadna.dao.ItiMazadnaUserFacade;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
 /**
- *
  * @author Eman-PC
  */
 @ManagedBean(name = "auction")
 @RequestScoped
 public class AuctionBean {
+
+    @ManagedProperty(value = "#{user}")
+    UserBean userBean;
+
+    @EJB
+    private ItiMazadnaBidderitemFacade itiMazadnaBidderitemFacade;
 
     private ItiMazadnaAuction mazadnaAuction;
     private DataModel<ItiMazadnaAuctionitem> model;
@@ -75,7 +84,20 @@ public class AuctionBean {
     }
 
     public String placeBid() {
+        ItiMazadnaUser currentUser = userBean.getCurrentUser();
         ItiMazadnaAuctionitem auctionItem = model.getRowData();
+
+        ItiMazadnaBidderitem bidderitem = new ItiMazadnaBidderitem();
+        bidderitem.setBidamount(100L);
+        bidderitem.setItiMazadnaItem(auctionItem.getItiMazadnaItem());
+        bidderitem.setItiMazadnaUser(currentUser);
+        bidderitem.setBidamount(auctionItem.getItiMazadnaItem().getPlaceBidAmount());
+        ItiMazadnaBidderitemPK bidderitemPK = new ItiMazadnaBidderitemPK();
+        bidderitemPK.setBidderid(currentUser.getRecid());
+        bidderitemPK.setItemid(auctionItem.getItiMazadnaItem().getRecid());
+        bidderitem.setItiMazadnaBidderitemPK(bidderitemPK);
+        itiMazadnaBidderitemFacade.create(bidderitem);
+
         auctionItem.getItiMazadnaItem().setName("updated");
         updateModelData();
         return null;
@@ -104,4 +126,11 @@ public class AuctionBean {
         this.model = model;
     }
 
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
 }

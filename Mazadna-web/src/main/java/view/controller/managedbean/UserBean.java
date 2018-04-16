@@ -5,73 +5,35 @@
  */
 package view.controller.managedbean;
 
-
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.Locale;
-import mazadna.dal.entities.*;
+import mazadna.dal.entities.ItiMazadnaUser;
 import mazadna.dao.ItiMazadnaUserFacade;
+
+import java.math.BigDecimal;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
- * @author Eman-PC
+ * @author GhadaMohamed
  */
-@Named(value = "user")
+@ManagedBean(name = "user")
 @SessionScoped
 public class UserBean {
 
-    @Inject
+    @EJB
     private ItiMazadnaUserFacade itiMazadnaUserFacade;
 
     ItiMazadnaUser currentUser;
-    private String locale = "ar";
 
     public UserBean() {
+        currentUser = new ItiMazadnaUser();
     }
 
-    public String checkLogin() {
-        return null;
-//        String page;
-//        currentUser = new ServiceHandler().checkLogin(email, password);
-//        if (currentUser != null) {
-//            page = "index";
-//        } else {
-//            page = "login";
-//        }
-//        return page;
-    }
-
-    public String register() {
-        itiMazadnaUserFacade.create(currentUser);
-        return "index";
-    }
-
-//    public void validateEmail(FacesContext context, UIComponent component, Object obj) {
-//        String regexEmail
-//                = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$";
-//
-//        String enteredEmail = (String) obj;
-//        if (!enteredEmail.matches(regexEmail)) {
-//            //if user email does not match the regex
-//            FacesMessage message = new FacesMessage("Validation error", "Invalid Format of Email");
-//            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//            throw new ValidatorException(message);
-//        }
-//    }
-
-    public String changeLocaleMethod() {
-        if (locale.equals("ar")) {
-            locale = "en_US";
-        } else {
-            locale = "ar";
-        }
-        Locale localeObj = new Locale(locale);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(localeObj);
-        return null;
-    }
-
+    /**
+     * **************** setter and getter for User Obj ****************
+     */
     public ItiMazadnaUser getCurrentUser() {
         return currentUser;
     }
@@ -80,12 +42,38 @@ public class UserBean {
         this.currentUser = currentUser;
     }
 
-    public String getLocale() {
-        return locale;
+    /**
+     * **************** setter and getter for User Facade ****************
+     */
+    public ItiMazadnaUserFacade getItiMazadnaUserFacade() {
+        return itiMazadnaUserFacade;
     }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setItiMazadnaUserFacade(ItiMazadnaUserFacade itiMazadnaUserFacade) {
+        this.itiMazadnaUserFacade = itiMazadnaUserFacade;
+    }
+
+    /**
+     * ***************************** check login ***********************
+     */
+    public String checkLogin() {
+        String page;
+        currentUser = itiMazadnaUserFacade.checkLogin(currentUser.getEmail(), currentUser.getPassword());
+        if (currentUser != null) {
+            page = "index";
+        } else {
+            page = "login";
+        }
+        return page;
+    }
+
+    /**
+     * ***************************** Register ***********************
+     */
+    public String register() {
+        currentUser.setRecid(0L);
+        itiMazadnaUserFacade.create(currentUser);
+        return "index";
     }
 
 }
