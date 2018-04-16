@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -53,6 +54,12 @@ public class ItiMazadnaAuction implements Serializable {
     private Date auctionEnd;
     @Column(name = "APPROVE")
     private Long approve;
+    @Size(max = 200)
+    @Column(name = "AUCTION_IMAGE")
+    private String auctionImage;
+    @Size(max = 100)
+    @Column(name = "AUCTION_NAME")
+    private String auctionName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "itiMazadnaAuction")
     private Set<ItiMazadnaAuctionitem> itiMazadnaAuctionitemSet;
 
@@ -93,6 +100,22 @@ public class ItiMazadnaAuction implements Serializable {
 
     public void setApprove(Long approve) {
         this.approve = approve;
+    }
+
+    public String getAuctionImage() {
+        return auctionImage;
+    }
+
+    public void setAuctionImage(String auctionImage) {
+        this.auctionImage = auctionImage;
+    }
+
+    public String getAuctionName() {
+        return auctionName;
+    }
+
+    public void setAuctionName(String auctionName) {
+        this.auctionName = auctionName;
     }
 
     @XmlTransient

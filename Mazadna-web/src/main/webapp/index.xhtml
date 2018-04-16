@@ -20,27 +20,27 @@
                             <div class="grid-in">
                                 <ui:repeat value="#{indexBean.auctions}" var="auction">
                                     <div class="col-md-3 grid-top simpleCart_shelfItem">
-                                        <h:commandLink action="single.xhtml"
-                                                       class="b-link-stripe b-animate-go  thickbox">
-                                            <h:graphicImage class="img-responsive" name="images/pi1.jpg"/>
-                                            <div class="b-wrapper">
-                                                <h3 class="b-animate b-from-left    b-delay03 ">
-                                                    <span>Test</span>
-                                                </h3>
-                                            </div>
-                                        </h:commandLink>
-                                        <p><a href="single.xhtml">Hello</a></p>
-                                        <!--<h:outputText value="Auction Name: "/>-->
+                                        <h:form>
+                                            <h:commandLink action="#{indexBean.navigate(auction)}"
+                                                           class="b-link-stripe b-animate-go  thickbox">
+                                                <h:graphicImage class="img-responsive" library="images"
+                                                                name="#{auction.auctionImage}"/>
+                                                <div class="b-wrapper">
+                                                    <h3 class="b-animate b-from-left    b-delay03 ">
+                                                        <span>#{auction.auctionName}</span>
+                                                    </h3>
+                                                </div>
+                                            </h:commandLink>
+                                        </h:form>
+                                        <p><a href="single.xhtml">#{auction.auctionName}</a></p>
                                         <label>Starting in: </label>
-                                        <h:outputText value="#{auction.auctionStart}">
+                                        <h:outputText value="   #{auction.auctionStart}">
                                             <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
                                         </h:outputText>
                                         <label>Ending in: </label>
-                                        <h:outputText value="#{auction.auctionEnd}">
+                                        <h:outputText value="   #{auction.auctionEnd}">
                                             <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
                                         </h:outputText>
-                                        <a href="#" class="item_add"><p class="number item_price"><i> </i>$500.00</p>
-                                        </a>
                                     </div>
                                 </ui:repeat>
                                 <div class="clearfix"></div>
