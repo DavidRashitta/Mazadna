@@ -6,12 +6,15 @@
 package mazadna.dao;
 
 ;
+import mazadna.dal.entities.ItiMazadnaAuction;
+import mazadna.dal.entities.ItiMazadnaAuctionitem;
 import mazadna.dal.entities.ItiMazadnaItem;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +36,31 @@ public class ItiMazadnaItemFacade extends AbstractFacade<ItiMazadnaItem> {
     }
 
     // get all deals
-    public List<ItiMazadnaItem> getAllDeals() {
+    //TESTED
+    public List<ItiMazadnaAuction> getAllDeals() {
         System.out.println("get all deals");
-        Query query = em.createQuery("SELECT i FROM ItiMazadnaItem i where i.userid != i.supplierid");
-        List<ItiMazadnaItem> deals = query.getResultList();
-        return deals;
+        Query query1 = em.createQuery("SELECT auctionItem from ItiMazadnaAuctionitem auctionItem " +
+                "WHERE  auctionItem.itiMazadnaAuctionitemPK.itemid IN (SELECT item.recid FROM ItiMazadnaItem item WHERE item.userid <> item.supplierid)");
+
+        List<ItiMazadnaAuctionitem> deals = query1.getResultList();
+
+        List<ItiMazadnaAuction> auc = new ArrayList<>();
+        for (ItiMazadnaAuctionitem auctionitem : deals){
+            Query query2 = em.createQuery("SELECT a from ItiMazadnaAuction a where a.recid = :id");
+            query2.setParameter("id",auctionitem.getItiMazadnaAuctionitemPK().getAuctionid());
+            auc.add((ItiMazadnaAuction) query2.getSingleResult());
+        }
+
+        return auc;
+    }
+    //to get items of a specific auction
+    public List<ItiMazadnaItem> getItemsOfSpecificAuction(long id){
+        Query query1 = em.createQuery("SELECT item from ItiMazadnaItem item " +
+                "WHERE  item.recid IN " +
+                "(SELECT aucItem.itiMazadnaAuctionitemPK.itemid FROM ItiMazadnaAuctionitem aucItem WHERE aucItem.itiMazadnaAuctionitemPK.auctionid = :id)");
+        query1.setParameter("id",id);
+        List<ItiMazadnaItem> items = query1.getResultList();
+        return items;
     }
 
 }
