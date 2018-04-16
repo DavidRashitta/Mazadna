@@ -5,6 +5,7 @@
  */
 package mazadna.dao;
 
+import mazadna.dal.entities.ItiMazadnaItem;
 import mazadna.dal.entities.ItiMazadnaUser;
 
 import javax.ejb.Stateless;
@@ -42,6 +43,7 @@ public class ItiMazadnaUserFacade extends AbstractFacade<ItiMazadnaUser> {
         super(ItiMazadnaUser.class);
     }
 
+    //TESTED
     // get all suppliers
     public List<ItiMazadnaUser> getAllSuppliers() {
         Query query = em.createQuery("SELECT u FROM ItiMazadnaUser u where u.role = 1");
@@ -62,5 +64,6 @@ public class ItiMazadnaUserFacade extends AbstractFacade<ItiMazadnaUser> {
         }
         return user;
     }
+
 
 }
