@@ -16,7 +16,7 @@ public class IndexBean {
     @EJB
     ItiMazadnaAuctionFacade auctionFacade;
 
-    @ManagedProperty(value = "#{auction}")
+    @ManagedProperty(value = "#{auctionBean}")
     private AuctionBean auctionBean;
 
     List<ItiMazadnaAuction> auctions;
@@ -37,6 +37,6 @@ public class IndexBean {
 
     public String navigate(ItiMazadnaAuction auction) {
         this.auctionBean.setMazadnaAuction(auction);
-        return "single.xhtml";
+        return "single";
     }
 }

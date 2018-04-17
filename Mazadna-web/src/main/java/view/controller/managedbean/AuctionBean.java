@@ -7,11 +7,10 @@ package view.controller.managedbean;
 
 import mazadna.dal.entities.*;
 import mazadna.dao.ItiMazadnaBidderitemFacade;
-import mazadna.dao.ItiMazadnaUserFacade;
+import mazadna.dao.ItiMazadnaItemFacade;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -22,7 +21,7 @@ import javax.faces.model.DataModel;
 /**
  * @author Eman-PC
  */
-@ManagedBean(name = "auction")
+@ManagedBean(name = "auctionBean")
 @RequestScoped
 public class AuctionBean {
 
@@ -31,99 +30,69 @@ public class AuctionBean {
 
     @EJB
     private ItiMazadnaBidderitemFacade itiMazadnaBidderitemFacade;
+    @EJB
+    private ItiMazadnaItemFacade itiMazadnaItemFacade;
 
+    private List<ItiMazadnaItem> items;
     private ItiMazadnaAuction mazadnaAuction;
-    private DataModel<ItiMazadnaAuctionitem> model;
+    private DataModel<ItiMazadnaItem> model;
 
     public AuctionBean() {
-
-        mazadnaAuction = new ItiMazadnaAuction();
-        mazadnaAuction.setAuctionStart(new Date());
-        mazadnaAuction.setAuctionEnd(new Date());
-        mazadnaAuction.setRecid(3L);
-
-        ItiMazadnaItem item = new ItiMazadnaItem();
-        item.setBidincrement(10L);
-        item.setDescription("item1");
-        item.setMinprice(100L);
-        item.setName("item11");
-        item.setRecid(1L);
-
-        ItiMazadnaItem item2 = new ItiMazadnaItem();
-        item2.setBidincrement(5L);
-        item2.setDescription("item2");
-        item2.setMinprice(110L);
-        item2.setName("item21");
-        item2.setRecid(2L);
-
-        ItiMazadnaAuctionitemPK auctionitemPK = new ItiMazadnaAuctionitemPK();
-        auctionitemPK.setAuctionid(mazadnaAuction.getRecid());
-        auctionitemPK.setItemid(item.getRecid());
-
-        ItiMazadnaAuctionitem auctionitem = new ItiMazadnaAuctionitem();
-        auctionitem.setItiMazadnaAuction(mazadnaAuction);
-        auctionitem.setItiMazadnaItem(item);
-        auctionitem.setItiMazadnaAuctionitemPK(auctionitemPK);
-
-        ItiMazadnaAuctionitemPK auctionitemPK2 = new ItiMazadnaAuctionitemPK();
-        auctionitemPK2.setAuctionid(mazadnaAuction.getRecid());
-        auctionitemPK2.setItemid(item2.getRecid());
-
-        ItiMazadnaAuctionitem auctionitem2 = new ItiMazadnaAuctionitem();
-        auctionitem2.setItiMazadnaAuction(mazadnaAuction);
-        auctionitem2.setItiMazadnaItem(item2);
-        auctionitem2.setItiMazadnaAuctionitemPK(auctionitemPK2);
-
-        Set<ItiMazadnaAuctionitem> test = new HashSet<>();
-        test.add(auctionitem);
-        test.add(auctionitem2);
-
-        mazadnaAuction.setItiMazadnaAuctionitemSet(test);
-
-        updateModelData();
     }
 
+    public String test()
+    {
+        System.out.println("tets");
+        return null;
+    }
     public String placeBid() {
         ItiMazadnaUser currentUser = userBean.getCurrentUser();
-        ItiMazadnaAuctionitem auctionItem = model.getRowData();
+        ItiMazadnaItem item = model.getRowData();
 
         ItiMazadnaBidderitem bidderitem = new ItiMazadnaBidderitem();
-        bidderitem.setBidamount(100L);
-        bidderitem.setItiMazadnaItem(auctionItem.getItiMazadnaItem());
+        bidderitem.setItiMazadnaItem(item);
         bidderitem.setItiMazadnaUser(currentUser);
-        bidderitem.setBidamount(auctionItem.getItiMazadnaItem().getPlaceBidAmount());
+        bidderitem.setBidamount(item.getPlaceBidAmount());
         ItiMazadnaBidderitemPK bidderitemPK = new ItiMazadnaBidderitemPK();
         bidderitemPK.setBidderid(currentUser.getRecid());
-        bidderitemPK.setItemid(auctionItem.getItiMazadnaItem().getRecid());
+        bidderitemPK.setItemid(item.getRecid());
         bidderitem.setItiMazadnaBidderitemPK(bidderitemPK);
         itiMazadnaBidderitemFacade.create(bidderitem);
 
-        auctionItem.getItiMazadnaItem().setName("updated");
+        item.setName("updated");
         updateModelData();
-        return null;
+        return "single";
     }
 
+    @PostConstruct
     public void updateModelData() {
-        Set<ItiMazadnaAuctionitem> auctionItems = mazadnaAuction.getItiMazadnaAuctionitemSet();
-        ItiMazadnaAuctionitem[] auctionItemsArray = new ItiMazadnaAuctionitem[auctionItems.size()];
-        auctionItems.toArray(auctionItemsArray);
-        model = new ArrayDataModel<>(auctionItemsArray);
-    }
+        if (mazadnaAuction != null) {
+            ItiMazadnaItem item = new ItiMazadnaItem();
+            item.setBidincrement(10L);
+            item.setDescription("item1nn");
+            item.setMinprice(100L);
+            item.setName("item11");
+            item.setRecid(1L);
 
-    public ItiMazadnaAuction getMazadnaAuction() {
-        return mazadnaAuction;
-    }
+            ItiMazadnaItem item2 = new ItiMazadnaItem();
+            item2.setBidincrement(5L);
+            item2.setDescription("item2nn");
+            item2.setMinprice(110L);
+            item2.setName("item21");
+            item2.setRecid(2L);
 
-    public void setMazadnaAuction(ItiMazadnaAuction mazadnaAuction) {
-        this.mazadnaAuction = mazadnaAuction;
-    }
-
-    public DataModel<ItiMazadnaAuctionitem> getModel() {
-        return model;
-    }
-
-    public void setModel(DataModel<ItiMazadnaAuctionitem> model) {
-        this.model = model;
+            //items = itiMazadnaItemFacade.getItemsOfSpecificAuction(mazadnaAuction.getRecid());
+            items = new ArrayList<>();
+            items.add(item);
+            items.add(item2);
+            ItiMazadnaItem[] itemsArray = new ItiMazadnaItem[items.size()];
+            items.toArray(itemsArray);
+            model = new ArrayDataModel<>(itemsArray);
+        } else {
+            items = new ArrayList<>();
+            ItiMazadnaItem[] itemsArray = new ItiMazadnaItem[0];
+            model = new ArrayDataModel<>(itemsArray);
+        }
     }
 
     public UserBean getUserBean() {
@@ -132,5 +101,30 @@ public class AuctionBean {
 
     public void setUserBean(UserBean userBean) {
         this.userBean = userBean;
+    }
+
+    public ItiMazadnaAuction getMazadnaAuction() {
+        return mazadnaAuction;
+    }
+
+    public void setMazadnaAuction(ItiMazadnaAuction mazadnaAuction) {
+        this.mazadnaAuction = mazadnaAuction;
+        updateModelData();
+    }
+
+    public DataModel<ItiMazadnaItem> getModel() {
+        return model;
+    }
+
+    public void setModel(DataModel<ItiMazadnaItem> model) {
+        this.model = model;
+    }
+
+    public List<ItiMazadnaItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItiMazadnaItem> items) {
+        this.items = items;
     }
 }

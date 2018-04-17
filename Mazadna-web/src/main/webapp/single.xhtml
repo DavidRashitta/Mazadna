@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
@@ -22,7 +22,7 @@
 
                             <div class="product-price1">
                                 <div class="top-sing">
-                                    <div class="col-md-7 single-top">	
+                                    <div class="col-md-7 single-top">
                                         <div class="flexslider">
                                             <ul class="slides">
                                                 <li data-thumb="images/si.jpg">
@@ -48,38 +48,40 @@
                                                 });
                                             });
                                         </script>
-                                    </div>	
+                                    </div>
                                     <div class="col-md-5 single-top-in simpleCart_shelfItem">
                                         <div class="single-para ">
-                                            <h:form>
 
-                                                <h:dataTable value="#{auction.mazadnaAuction.itiMazadnaAuctionitemSet}"
+                                                <h:dataTable value="#{auctionBean.items}"
                                                              var="item">
                                                     <h:column>
-                                                        <h3>#{item.itiMazadnaItem.name}</h3><br/>
-                                                        <h:outputText value="Current Price: $#{item.itiMazadnaItem.minprice}" /><br/><br/>
+                                                        <h3>#{item.name}</h3><br/>
+                                                        <h:outputText value="Current Price: $#{item.minprice}" /><br/><br/>
                                                         Enter your maximum bid:
-                                                        <h:inputText pt:type="number" pt:step="#{item.itiMazadnaItem.bidincrement}" 
-                                                                     pt:min="10" value="#{item.itiMazadnaItem.placeBidAmount}"/>
-                                                        <h:commandButton value="Place Bid" action="#{auction.placeBid}"/><br/><br/>
+                                                        <h:form>
+                                                        <h:inputText pt:type="number" pt:step="#{item.bidincrement}"
+                                                                     pt:min="10" value="#{item.placeBidAmount}"/>
+                                                        <h:commandButton value="Place Bid" action="#{auctionBean.placeBid}"
+                                                        immediate="true"/><br/><br/>
 
-                                                        <h:outputText value="#{item.itiMazadnaItem.description}" /><br/><br/>
+                                                        </h:form>
+                                                        <h:outputText value="#{item.description}" /><br/><br/>
                                                         <h:outputText value="Number of Bids: 12" /><br/><br/>
 
-                                                        <h:outputText value="Bid Increment: $#{item.itiMazadnaItem.bidincrement}" /><br/><br/>
+                                                        <h:outputText value="Bid Increment: $#{item.bidincrement}" /><br/><br/>
                                                     </h:column>
                                                 </h:dataTable>
-                                            </h:form>
+
                                             <h:form>
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            <h5><h:outputText value="Ends In: #{auction.mazadnaAuction.auctionEnd}" /></h5><br/>
+                                                            <h5><h:outputText value="Ends In: #{auctionBean.mazadnaAuction.auctionEnd}" /></h5><br/>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <h5><h:outputText value="Ends On: #{auction.mazadnaAuction.auctionEnd}"/></h5>
+                                                            <h5><h:outputText value="Ends On: #{auctionBean.mazadnaAuction.auctionEnd}"/></h5>
                                                         </td>
                                                     </tr>
                                                 </table>
