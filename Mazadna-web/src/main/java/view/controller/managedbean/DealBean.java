@@ -8,6 +8,7 @@ import mazadna.dao.ItiMazadnaUserFacade;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -20,12 +21,22 @@ public class DealBean {
     @EJB
     private ItiMazadnaItemFacade itiMazadnaItemFacade;
 
+    @ManagedProperty(value = "#{itemBean}")
+    private ItemBean itemBean;
+
     List<ItiMazadnaAuction> deals;
 
     public DealBean() {
 
     }
 
+    public ItemBean getItemBean() {
+        return itemBean;
+    }
+
+    public void setItemBean(ItemBean itemBean) {
+        this.itemBean = itemBean;
+    }
 //    DataModel<ItiMazadnaAuction> model = new ListDataModel<ItiMazadnaAuction>(itiMazadnaItemFacade.getAllDeals());
 
 //    public void setModel(DataModel<ItiMazadnaAuction> model) {
@@ -37,9 +48,14 @@ public class DealBean {
 //    }
 
 
-    public List<ItiMazadnaAuction> getDeals(){
+    public List<ItiMazadnaAuction> getDeals() {
         deals = itiMazadnaItemFacade.getAllDeals();
         return deals;
+    }
+
+    public String findItems(ItiMazadnaAuction auction) {
+        this.itemBean.setItiMazadnaAuction(auction);
+        return "dealItems";
     }
 
 

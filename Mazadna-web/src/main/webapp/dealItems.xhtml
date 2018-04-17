@@ -7,7 +7,7 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Deals</title>
+    <title>items</title>
 </h:head>
 <h:body>
     <f:view>
@@ -16,7 +16,7 @@
                 <!-- grow -->
                 <div class="grow">
                     <div class="container">
-                        <h2>Deals</h2>
+                        <h2>items</h2>
                     </div>
                 </div>
                 <!-- grow -->
@@ -24,28 +24,24 @@
                     <!--<ui:include src="/pieces/header.xhtml"/>-->
                     <h:form id="fieldset">
                         <center>
-                            <legend><br/><br/><b>All Deals</b></legend>
+                            <legend><br/><br/><b>All items</b></legend>
                         </center>
 
-                        <h:dataTable value="#{dealBean.deals}" var="deal">
+                        <h:dataTable value="#{itemBean.auctionItems}" var="item">
                             <h:column>
-                                <f:facet name="header">Action Name</f:facet>
-                                <h:outputText value="#{deal.auctionName}" style="width:75px"/>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{item.name}" style="width:75px"/>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Start Date</f:facet>
-                                <h:outputText value="#{deal.auctionStart}" style="width:75px"/>
+                                <f:facet name="header">Description</f:facet>
+                                <h:outputText value="#{item.description}" style="width:75px"/>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Start Date</f:facet>
-                                <h:outputText value="#{deal.auctionEnd}" style="width:100px"/>
+                                <f:facet name="header">Min price</f:facet>
+                                <h:outputText value="#{item.minprice}" style="width:100px"/>
                             </h:column>
 
-                            <h:column>
-                                <h:commandButton styleClass="btn" value="View Items"
-                                                 action="#{dealBean.findItems(deal)}"></h:commandButton>
-                                <f:facet name="header">Items</f:facet>
-                            </h:column>
+
                         </h:dataTable>
 
                     </h:form>
