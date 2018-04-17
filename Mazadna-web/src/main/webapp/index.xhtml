@@ -21,7 +21,7 @@
                                 <ui:repeat value="#{indexBean.auctions}" var="auction">
                                     <div class="col-md-3 grid-top simpleCart_shelfItem">
                                         <h:form>
-                                            <h:commandLink action="#{indexBean.navigate(auction)}"
+                                            <h:commandLink action="single"
                                                            class="b-link-stripe b-animate-go  thickbox">
                                                 <h:graphicImage class="img-responsive" library="images"
                                                                 name="#{auction.auctionImage}"/>

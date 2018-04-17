@@ -35,8 +35,8 @@ public class IndexBean {
         return auctions;
     }
 
-    public String navigate(ItiMazadnaAuction auction) {
-        this.auctionBean.setMazadnaAuction(auction);
-        return "single";
-    }
+//    public String navigate(ItiMazadnaAuction auction) {
+//        this.auctionBean.setMazadnaAuction(auction);
+//        return "single";
+//    }
 }

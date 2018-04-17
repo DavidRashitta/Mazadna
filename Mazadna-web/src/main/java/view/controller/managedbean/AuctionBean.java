@@ -36,15 +36,11 @@ public class AuctionBean {
     private List<ItiMazadnaItem> items;
     private ItiMazadnaAuction mazadnaAuction;
     private DataModel<ItiMazadnaItem> model;
+    private ItiMazadnaItem item;
 
     public AuctionBean() {
     }
 
-    public String test()
-    {
-        System.out.println("tets");
-        return null;
-    }
     public String placeBid() {
         ItiMazadnaUser currentUser = userBean.getCurrentUser();
         ItiMazadnaItem item = model.getRowData();
@@ -57,34 +53,20 @@ public class AuctionBean {
         bidderitemPK.setBidderid(currentUser.getRecid());
         bidderitemPK.setItemid(item.getRecid());
         bidderitem.setItiMazadnaBidderitemPK(bidderitemPK);
+
         itiMazadnaBidderitemFacade.create(bidderitem);
 
         item.setName("updated");
         updateModelData();
-        return "single";
+        return "index";
     }
 
     @PostConstruct
     public void updateModelData() {
+        mazadnaAuction = new ItiMazadnaAuction();
+        mazadnaAuction.setRecid(27L);
         if (mazadnaAuction != null) {
-            ItiMazadnaItem item = new ItiMazadnaItem();
-            item.setBidincrement(10L);
-            item.setDescription("item1nn");
-            item.setMinprice(100L);
-            item.setName("item11");
-            item.setRecid(1L);
-
-            ItiMazadnaItem item2 = new ItiMazadnaItem();
-            item2.setBidincrement(5L);
-            item2.setDescription("item2nn");
-            item2.setMinprice(110L);
-            item2.setName("item21");
-            item2.setRecid(2L);
-
-            //items = itiMazadnaItemFacade.getItemsOfSpecificAuction(mazadnaAuction.getRecid());
-            items = new ArrayList<>();
-            items.add(item);
-            items.add(item2);
+            items = itiMazadnaItemFacade.getItemsOfSpecificAuction(mazadnaAuction.getRecid());
             ItiMazadnaItem[] itemsArray = new ItiMazadnaItem[items.size()];
             items.toArray(itemsArray);
             model = new ArrayDataModel<>(itemsArray);

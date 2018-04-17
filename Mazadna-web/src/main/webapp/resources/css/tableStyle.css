@@ -24,13 +24,13 @@ fieldset {
     border: none;
 }
 th {
-    background: url(https://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#009999, #009999);
+    background: url(https://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#8ce78a, #8ce78a);
     border-left: 1px solid #555;
     border-right: 1px solid #777;
     border-top: 1px solid #555;
     border-bottom: 1px solid #333;
     box-shadow: inset 0 1px 0 #999;
-    color: #fff;
+    color: #000000;
     font-weight: bold;
     padding: 10px 15px;
     position: relative;
