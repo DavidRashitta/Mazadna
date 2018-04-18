@@ -15,14 +15,16 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 
 /**
  * @author Eman-PC
  */
 @ManagedBean(name = "auctionBean")
-@RequestScoped
+@SessionScoped
 public class AuctionBean {
 
     @ManagedProperty(value = "#{user}")
@@ -39,6 +41,7 @@ public class AuctionBean {
     private ItiMazadnaItem item;
 
     public AuctionBean() {
+        model = new ListDataModel<>();
     }
 
     public String placeBid() {
@@ -46,35 +49,24 @@ public class AuctionBean {
         ItiMazadnaItem item = model.getRowData();
 
         ItiMazadnaBidderitem bidderitem = new ItiMazadnaBidderitem();
-        bidderitem.setItiMazadnaItem(item);
-        bidderitem.setItiMazadnaUser(currentUser);
+
         bidderitem.setBidamount(item.getPlaceBidAmount());
         ItiMazadnaBidderitemPK bidderitemPK = new ItiMazadnaBidderitemPK();
         bidderitemPK.setBidderid(currentUser.getRecid());
         bidderitemPK.setItemid(item.getRecid());
         bidderitem.setItiMazadnaBidderitemPK(bidderitemPK);
 
-        itiMazadnaBidderitemFacade.create(bidderitem);
+        itiMazadnaBidderitemFacade.edit(bidderitem);
 
         item.setName("updated");
-        updateModelData();
-        return "index";
+        return "";
     }
 
-    @PostConstruct
+
     public void updateModelData() {
-        mazadnaAuction = new ItiMazadnaAuction();
-        mazadnaAuction.setRecid(27L);
-        if (mazadnaAuction != null) {
-            items = itiMazadnaItemFacade.getItemsOfSpecificAuction(mazadnaAuction.getRecid());
-            ItiMazadnaItem[] itemsArray = new ItiMazadnaItem[items.size()];
-            items.toArray(itemsArray);
-            model = new ArrayDataModel<>(itemsArray);
-        } else {
-            items = new ArrayList<>();
-            ItiMazadnaItem[] itemsArray = new ItiMazadnaItem[0];
-            model = new ArrayDataModel<>(itemsArray);
-        }
+
+        items = itiMazadnaItemFacade.getItemsOfSpecificAuction(mazadnaAuction.getRecid());
+        model.setWrappedData(items);
     }
 
     public UserBean getUserBean() {

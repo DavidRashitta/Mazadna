@@ -21,7 +21,7 @@
                                 <ui:repeat value="#{indexBean.auctions}" var="auction">
                                     <div class="col-md-3 grid-top simpleCart_shelfItem">
                                         <h:form>
-                                            <h:commandLink action="single"
+                                            <h:commandLink action="#{indexBean.navigate(auction)}"
                                                            class="b-link-stripe b-animate-go  thickbox">
                                                 <h:graphicImage class="img-responsive" library="images"
                                                                 name="#{auction.auctionImage}"/>
@@ -32,7 +32,7 @@
                                                 </div>
                                             </h:commandLink>
                                         </h:form>
-                                        <p><a href="single.xhtml">#{auction.auctionName}</a></p>
+                                        <p><a href="#{indexBean.navigate(auction)}">#{auction.auctionName}</a></p>
                                         <label>Starting in: </label>
                                         <h:outputText value="   #{auction.auctionStart}">
                                             <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
